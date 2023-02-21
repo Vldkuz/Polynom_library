@@ -1,15 +1,21 @@
 #pragma once
 #include <fstream>
-#include "Dinamic_Structure.h"
 
 struct Polynom{
-	Dinamic_Structure factors;
-	unsigned int degree;
+	int* factors;
+	unsigned int degree = 0;
 };
 
-Polynom InStreamPolynom(std::ifstream FileStream);
+struct DividedPolynom {
+	Polynom q;
+	Polynom r;
+};
 
-void OutStreamPolynom(std::ofstream FileStream,Polynom d1);
+unsigned int GetFactorsCount(std::string temp);
+
+Polynom InStreamPolynom(std::ifstream &FileStream);
+
+void OutStreamPolynom(std::ofstream &FileStream,Polynom &d1);
 
 Polynom GetFactorsDerivative(Polynom& d1);
 

@@ -129,13 +129,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Dinamic_Structure.cpp" />
+    <ClCompile Include="Dinamic_Structure.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Polynom_Functions.cpp" />
     <ClCompile Include="Polynom_library.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Dinamic_Structure.h" />
+    <ClInclude Include="Dinamic_Structure.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Polynom_Functions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
