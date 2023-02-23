@@ -12,10 +12,12 @@ int main()
     d1 = InStreamPolynom(Test);
     d2 = InStreamPolynom(Test);
 
-    std::ofstream Out("Test.txt");
+    DividedPolynom d3 = DividePolynom(d1, d2);
+    d1 = d3.q;
+    d2 = d3.r;
+    std::ofstream Out("Test1.txt");
     OutStreamPolynom(Out, d1);
     OutStreamPolynom(Out, d2);
-    
 
     return 0;
 }

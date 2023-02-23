@@ -11,7 +11,6 @@ struct DividedPolynom {
 	Polynom r;
 };
 
-unsigned int GetFactorsCount(std::string temp);
 
 Polynom InStreamPolynom(std::ifstream &FileStream);
 
@@ -29,7 +28,7 @@ Polynom DifferencePolynom(Polynom &d1, Polynom &d2);
 
 Polynom MultipliedPolynom(Polynom &d1, Polynom &d2);
 
-Polynom DividedPolynom(Polynom& d1, Polynom &d2 );
+DividedPolynom DividePolynom(Polynom& d1, Polynom &d2 );
 
 
 
