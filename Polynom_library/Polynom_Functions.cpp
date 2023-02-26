@@ -199,6 +199,7 @@ DividedPolynom DividePolynom(Polynom& d1, Polynom& d2)
 	while (delim.degree >= divider.degree && k < size_f) {
 		int ffactor = delim.factors[0] / divider.factors[0];
 		chast.factors[k] = ffactor;
+		if (ffactor == 0) delim.degree--;
 		Polynom ForDiv = PreparedForDiv(chast, k);
 		Polynom razn = MultipliedPolynom(divider, ForDiv);
 		delim = DifferencePolynom(delim, razn);
