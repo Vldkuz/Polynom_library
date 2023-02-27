@@ -99,28 +99,55 @@ int GetDegreePolynomAndFactors(Polynom& d1) {
 	return 0;
 }
 
+void PreparedForSumm(Polynom& d1, Polynom& d2) {
+	unsigned int k = 0;
+
+	if (d1.degree > d2.degree) {
+		int* arr_t = new int[d1.degree + 1];
+		while (d1.degree > d2.degree)
+		{
+			arr_t[k++] = 0;
+			d2.degree++;
+		}
+
+		int t = 0;
+		for (int i = k; i < d1.degree + 1; ++i)
+			arr_t[i] = d2.factors[t++];
+
+
+		delete[] d2.factors;
+		d2.factors = arr_t;
+	}
+
+	if (d1.degree < d2.degree) {
+		int* arr_t = new int[d2.degree + 1];
+
+		while (d2.degree > d1.degree) {
+			arr_t[k++] = 0;
+			d1.degree++;
+		}
+
+		int t = 0;
+		for (int i = k; i < d2.degree + 1; ++i)
+			arr_t[i] = d1.factors[t++];
+		delete[] d1.factors;
+		d1.factors = arr_t;
+	}
+}
+
+
+
 Polynom SummPolynom(Polynom& d1, Polynom& d2)
 {
 	Polynom d3;
 	unsigned int k = 0;
 	d3.degree = std::max(d1.degree, d2.degree);
 	d3.factors = new int[d3.degree + 1];
+	PreparedForSumm(d1, d2);
 
-	for (int i = 0; i < d3.degree + 1; ++i) {
-		if (d2.degree - i >= 0 && d1.degree - i >= 0) {
-			int temp = d2.factors[i] + d1.factors[i];
-			d3.factors[k++] = temp;
-		}
-
-		if (d2.degree - i < 0 && d1.degree - i >= 0) {
-			int temp = d1.factors[i];
-			d3.factors[k++] = temp;
-		}
-
-		if (d1.degree - i < 0 && d2.degree - i >= 0) {
-			int temp = d2.factors[i];
-			d3.factors[k++] = temp;
-		}
+	for (int i = d3.degree; i >= 0; --i) {
+		int temp = d2.factors[i] + d1.factors[i];
+		d3.factors[i] = temp;
 	}
 	
 
@@ -132,32 +159,18 @@ Polynom SummPolynom(Polynom& d1, Polynom& d2)
 	return d3;
 }
 
+Polynom GetInversePolynom(Polynom d1) {
+
+	for (int i = 0; i < d1.degree + 1; ++i) {
+		d1.factors[i] = -d1.factors[i];
+	}
+	return d1;
+}
+
 Polynom DifferencePolynom(Polynom& d1, Polynom& d2)
 {
-	Polynom d3;
-	unsigned int k = 0;
-	d3.degree = std::max(d1.degree, d2.degree);
-	d3.factors = new int[d3.degree + 1];
-	for (int i = 0; i < d3.degree + 1; ++i) {
-		if (d2.degree - i >= 0 && d1.degree - i >= 0) {
-			int temp = d1.factors[i] - d2.factors[i];
-			d3.factors[k++] = temp;
-		}
-
-		if (d2.degree - i < 0 && d1.degree - i >= 0) {
-			int temp = d1.factors[i];
-			d3.factors[k++] = temp;
-		}
-
-		if (d1.degree - i < 0 && d2.degree - i >= 0) {
-			int temp = -d2.factors[i];
-			d3.factors[k++] = temp;
-		}
-	}
-
-	
-	d3.degree = GetDegreePolynomAndFactors(d3);
-	return d3;
+	Polynom temp = GetInversePolynom(d2);
+	return SummPolynom(d1, temp);
 }
 
 Polynom MultipliedPolynom(Polynom& d1, Polynom& d2)

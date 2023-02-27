@@ -3,7 +3,7 @@
 
 struct Polynom{
 	int* factors;
-	unsigned int degree = 0;
+	int degree = 0;
 };
 
 struct DividedPolynom {

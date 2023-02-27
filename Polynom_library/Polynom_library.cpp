@@ -13,11 +13,9 @@ int main()
     d2 = InStreamPolynom(Test);
 
     DividedPolynom d3 = DividePolynom(d1, d2);
-    d1 = d3.q;
-    d2 = d3.r;
-    std::ofstream Out("Test1.txt");
-    OutStreamPolynom(Out, d1);
-    OutStreamPolynom(Out, d2);
+    std::ofstream Test1("Test1.txt");
+    OutStreamPolynom(Test1, d3.q);
+    OutStreamPolynom(Test1, d3.r);
 
     return 0;
 }
