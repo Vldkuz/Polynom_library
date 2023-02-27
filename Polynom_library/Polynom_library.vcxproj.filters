@@ -31,6 +31,8 @@
     <Text Include="Test.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="Test1.txt" />
+    <Text Include="Test1.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>

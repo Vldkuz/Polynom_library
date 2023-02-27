@@ -2,7 +2,7 @@
 #include <string>
 
 unsigned int GetFactorsCount(std::string temp) {
-	unsigned int count = 0;
+	unsigned int count = 1;
 	unsigned int size_temp = temp.length();
 
 	for (int i = 0; i < size_temp; ++i) {
@@ -10,7 +10,6 @@ unsigned int GetFactorsCount(std::string temp) {
 			++count;
 	}
 
-	++count;
 	return count;
 }
 
@@ -99,43 +98,6 @@ int GetDegreePolynomAndFactors(Polynom& d1) {
 	return 0;
 }
 
-void PreparedForSumm(Polynom& d1, Polynom& d2) {
-	unsigned int k = 0;
-
-	if (d1.degree > d2.degree) {
-		int* arr_t = new int[d1.degree + 1];
-		while (d1.degree > d2.degree)
-		{
-			arr_t[k++] = 0;
-			d2.degree++;
-		}
-
-		int t = 0;
-		for (int i = k; i < d1.degree + 1; ++i)
-			arr_t[i] = d2.factors[t++];
-
-
-		delete[] d2.factors;
-		d2.factors = arr_t;
-	}
-
-	if (d1.degree < d2.degree) {
-		int* arr_t = new int[d2.degree + 1];
-
-		while (d2.degree > d1.degree) {
-			arr_t[k++] = 0;
-			d1.degree++;
-		}
-
-		int t = 0;
-		for (int i = k; i < d2.degree + 1; ++i)
-			arr_t[i] = d1.factors[t++];
-		delete[] d1.factors;
-		d1.factors = arr_t;
-	}
-}
-
-
 
 Polynom SummPolynom(Polynom& d1, Polynom& d2)
 {
@@ -143,28 +105,48 @@ Polynom SummPolynom(Polynom& d1, Polynom& d2)
 	unsigned int k = 0;
 	d3.degree = std::max(d1.degree, d2.degree);
 	d3.factors = new int[d3.degree + 1];
-	PreparedForSumm(d1, d2);
+
+	int size_1 = d1.degree;
+	int size_2 = d2.degree;
+
 
 	for (int i = d3.degree; i >= 0; --i) {
-		int temp = d2.factors[i] + d1.factors[i];
-		d3.factors[i] = temp;
+		if (size_1 >= 0 && size_2 >= 0) {
+			int temp = d2.factors[size_2--] + d1.factors[size_1--];
+			d3.factors[i] = temp;
+		}
+		
+		else if (size_1 >= 0 && size_2 < 0)
+		{
+			int temp = d1.factors[size_1--];
+			d3.factors[i] = temp;
+		}
+
+		else if (size_2 >= 0 && size_1 < 0) {
+			int temp = d2.factors[size_2--];
+			d3.factors[i] = temp;
+		}
 	}
-	
+
 
 	d3.degree = GetDegreePolynomAndFactors(d3);
-	
+
 	//Придется пересчитать максимальную степень многочлена, поскольку может быть подан многочлен, обратный по сложению, что противоречит тому, что максимальная степень
 	//многочлена будет равна максимимуму.
 
 	return d3;
 }
 
-Polynom GetInversePolynom(Polynom d1) {
+Polynom GetInversePolynom(Polynom &d1) { 
+	Polynom temp;
+	temp.degree = d1.degree;
+	temp.factors = new int[d1.degree + 1];
 
 	for (int i = 0; i < d1.degree + 1; ++i) {
-		d1.factors[i] = -d1.factors[i];
+		temp.factors[i] = -d1.factors[i];
 	}
-	return d1;
+
+	return temp;
 }
 
 Polynom DifferencePolynom(Polynom& d1, Polynom& d2)

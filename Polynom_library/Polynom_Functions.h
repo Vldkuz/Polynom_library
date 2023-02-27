@@ -2,7 +2,7 @@
 #include <fstream>
 
 struct Polynom{
-	int* factors;
+	int* factors = nullptr;
 	int degree = 0;
 };
 
